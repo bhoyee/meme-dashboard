@@ -16,7 +16,11 @@
         "vite": "^7.0.7"
     },
     "dependencies": {
+        "chart.js": "^4.5.1",
+        "primeicons": "^7.0.0",
+        "primevue": "^4.4.1",
         "vue": "^3.5.22",
-        "vue-router": "^4.6.0"
+        "vue-router": "^4.6.0",
+        "vue3-easy-data-table": "^1.5.47"
     }
 }

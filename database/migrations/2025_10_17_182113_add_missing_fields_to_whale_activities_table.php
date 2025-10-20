@@ -12,22 +12,17 @@ return new class extends Migration
  public function up()
     {
         Schema::table('whale_activities', function (Blueprint $table) {
-            $table->decimal('value_usd', 20, 2)->nullable()->after('amount');
+            // $table->decimal('value_usd', 20, 2)->nullable()->after('amount');
         });
     }
 
-    public function down()
-    {
-        Schema::table('whale_activities', function (Blueprint $table) {
-            $table->dropColumn([
-               
-             
-             
-           
-           
-                'value_usd',
-               
-            ]);
-        });
-    }
+public function down()
+{
+    Schema::table('whale_activities', function (Blueprint $table) {
+        if (Schema::hasColumn('whale_activities', 'value_usd')) {
+            $table->dropColumn('value_usd');
+        }
+    });
+}
+
 };

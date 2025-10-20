@@ -1,9 +1,14 @@
+#!/usr/bin/env php
 <?php
+file_put_contents(__DIR__ . '/listener.log', "[".date('Y-m-d H:i:s')."] Listener triggered\n", FILE_APPEND);
 
 require __DIR__ . '/vendor/autoload.php';
 $app = require_once __DIR__ . '/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
+require_once __DIR__ . '/parseWhaleMessage.php';
+
+
 
 use danog\MadelineProto\API;
 use danog\MadelineProto\Settings;
@@ -54,18 +59,14 @@ foreach ($updates['messages'] as $message) {
         continue;
     }
 
-    preg_match('/Amount:\s([\d,\.]+)\s(\w+)/', $text, $amountMatch);
-    preg_match('/Value:\s\$(\d[\d,\.]+)/', $text, $valueMatch);
-    preg_match('/From:\s(.+)/', $text, $fromMatch);
-    preg_match('/To:\s(.+)/', $text, $toMatch);
-    preg_match('/Time:\s(.+)/', $text, $timeMatch);
+    $parsed = parseWhaleMessage($text);
+$amount = $parsed['amount'];
+$token = $parsed['token'];
+$valueUsd = $parsed['value_usd'];
+$from = $parsed['from'];
+$to = $parsed['to'];
+$timestamp = $parsed['timestamp'];
 
-    $amount = isset($amountMatch[1]) ? str_replace(',', '', $amountMatch[1]) : null;
-    $token = $amountMatch[2] ?? null;
-    $valueUsd = isset($valueMatch[1]) ? str_replace(',', '', $valueMatch[1]) : null;
-    $from = trim($fromMatch[1] ?? '');
-    $to = trim($toMatch[1] ?? '');
-    $timestamp = isset($timeMatch[1]) ? Carbon::parse($timeMatch[1], 'GMT')->setTimezone('UTC') : now();
 
     echo "🔍 Parsed: token=$token, amount=$amount, value=$valueUsd, from=$from, to=$to\n";
 
@@ -74,7 +75,9 @@ foreach ($updates['messages'] as $message) {
         continue;
     }
 
-    try {
+try {
+    // Example: insert into DB
+    if ($amount && $token && $valueUsd) {
         DB::table('whale_activities')->updateOrInsert(
             ['tx_id' => $txId],
             [
@@ -87,8 +90,10 @@ foreach ($updates['messages'] as $message) {
                 'detected_at' => $timestamp,
             ]
         );
-        echo "✅ Stored whale activity: $token | $amount | $from → $to | $valueUsd\n";
-    } catch (\Throwable $e) {
-        echo "💥 DB Error for TX $txId: " . $e->getMessage() . "\n";
+
+        file_put_contents(__DIR__ . '/listener.log', "✅ Stored: $token | $amount | $from → $to | $valueUsd\n", FILE_APPEND);
     }
+} catch (\Throwable $e) {
+    file_put_contents(__DIR__ . '/error.log', "[".date('Y-m-d H:i:s')."] DB Error: " . $e->getMessage() . "\n", FILE_APPEND);
+}
 }
