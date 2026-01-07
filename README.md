@@ -81,13 +81,6 @@ php artisan schedule:run
 
 ---
 
-### 🤝 Contributing
-
-Each milestone is developed in its own branch. To contribute:
-
-```bash
-git checkout -b mX-feature-name
-```
 
 Submit pull requests to `master` only after testing.
 
