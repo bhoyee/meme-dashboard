@@ -27,20 +27,8 @@ A real-time, Telegram-powered meme coin intelligence dashboard built with Larave
 
 ---
 
-### 🧱 Milestone Architecture
 
-| Milestone | Branch | Description |
-|----------|--------|-------------|
-| M1 | `m1-api-scheduler` | Laravel scheduler + dummy command |
-| M2 | `m2-frontend-vue` | Vue.js scaffold + routing |
-| M3 | `m3-telegram-solscan` | Telegram + Solscan scraper |
-| M4 | `m4-signal-parser` | Hype signal scoring |
-| M5 | `m5-whale-tracker` | Whale wallet tracking |
-| M6 | `m6-risk-scanner` | Rug risk scanner |
-| M7 | `m7-alert-system` | Alert triggers |
-| M8 | `m8-watchlist-tagging` | Watchlist + tagging UX |
 
-All milestones are developed in isolated branches and merged into `master` after testing.
 
 ---
 
