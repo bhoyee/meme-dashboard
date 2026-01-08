@@ -1,6 +1,6 @@
 ## 📘 Meme Coin Alpha Dashboard
 
-A real-time, Telegram-powered meme coin intelligence dashboard built with Laravel + Vue.js. It tracks hype signals, whale wallet activity, and contract risks — giving early insights into high-potential meme coins before they trend.
+A real-time, Telegram-powered meme coin intelligence dashboard built with Laravel + Vue.js frontend. It tracks hype signals, whale wallet activity, and contract risks — giving early insights into high-potential meme coins before they trend.
 
 ---
 
