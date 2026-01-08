@@ -86,4 +86,4 @@ Submit pull requests to `master` only after testing.
 
 ---
 
-Let me know when you’re ready and I’ll help you add this to your repo and commit it to `m1-api-scheduler`. Then we’ll move on to M2 and scaffold the Vue frontend.
+
